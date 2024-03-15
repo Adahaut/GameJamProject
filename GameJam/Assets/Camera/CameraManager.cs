@@ -5,7 +5,6 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     public Camera mainCamera;
-    
 
     private Vector3 offset = new Vector3 (0f, 0f, -10f);
     private float smoothTime = 0.25f;
@@ -13,12 +12,16 @@ public class CameraManager : MonoBehaviour
 
     public float shakeLenght;
     public float shakeForce;
-
+    public bool followPlayer = true;
+    public float targetMoveSpeed;
+    public float targetMaxDistance;
 
     float shakeAmount = 0f;
+    
 
 
-    [SerializeField] private Transform target;
+    [SerializeField] private Transform playerTarget;
+    [SerializeField] private Transform objectTarget;
 
     private void Awake()
     {
@@ -26,16 +29,35 @@ public class CameraManager : MonoBehaviour
             mainCamera = Camera.main;
     }
 
-    //Camera smooth follow
     void Update()
     {
-        Vector3 targetPosition = target.position + offset;
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+        if (followPlayer)
+        {
+            //Camera smooth follow
+            Vector3 targetPosition = playerTarget.position + offset;
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+        }
+        else
+        {
+            Vector3 targetPosition = objectTarget.position + offset;
+            Vector3 dir = Vector3.ClampMagnitude(targetPosition - transform.position, targetMaxDistance);
+            //Vector3 dir = (targetPosition - transform.position).normalized * targetMaxDistance;
+            //transform.position = Vector3.Slerp(transform.position, dir, Time.deltaTime * targetMoveSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * targetMoveSpeed * dir.magnitude);
+        }
+
+
+
 
         //Test camera shake
-        if(Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             Shake(shakeForce, shakeLenght);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            followPlayer = !followPlayer;
         }
     }
 
