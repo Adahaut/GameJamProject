@@ -4,7 +4,10 @@ using UnityEngine;
 
 public abstract class SeasonObject : MonoBehaviour
 {
-    public abstract void SeasonChanged(string season);
+    public abstract void SeasonChanged(Seasons season);
 
-
+    protected virtual void Start()
+    {
+        SeasonManager.instance.allObjects.Add(this);
+    }
 }

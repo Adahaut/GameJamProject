@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
@@ -14,6 +15,8 @@ public class SeasonManager : MonoBehaviour
     [SerializeField] private PostProcessProfile springProfile;
     [SerializeField] private PostProcessProfile summerProfile;
     [SerializeField] private PostProcessProfile automnProfile;
+
+    public List<SeasonObject> allObjects;
 
     private void Awake()
     {
@@ -42,6 +45,11 @@ public class SeasonManager : MonoBehaviour
             case Seasons.AUTUMN:
                 postProcess.profile = automnProfile;
                 break;
+        }
+
+        foreach (var obj in allObjects)
+        {
+            obj.SeasonChanged(currentSeason);
         }
     }
 

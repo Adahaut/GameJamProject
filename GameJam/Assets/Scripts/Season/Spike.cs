@@ -9,23 +9,23 @@ public class Spike : SeasonObject
     public Sprite spikeUnderLeaves;
     public Sprite spikeWithoutLeaves;
 
-    public override void SeasonChanged(string season)
+    public override void SeasonChanged(Seasons season)
     {
         switch (season)
         {
-            case "summer":
+            case Seasons.SUMMER:
                 spike.sprite = spikeWithoutLeaves;
                 break;
 
-            case "winter":
+            case Seasons.WINTER:
                 spike.sprite = spikeWithoutLeaves;
                 break;
 
-            case "fall":
+            case Seasons.AUTUMN:
                 spike.sprite = spikeUnderLeaves;
                 break;
 
-            case "spring":
+            case Seasons.SPRING:
                 spike.sprite = spikeWithoutLeaves;
                 break;
         }
