@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D _rb;
     Vector2 _velocity;
     public Vector2 _jumpForce = new Vector2(0,5);
+    public Vector2 _respawnPos;
 
 
     public bool _grounded = false;
@@ -76,8 +77,10 @@ public class PlayerMovement : MonoBehaviour
                 _rb.velocity = new(_rb.velocity.x/_climbSpeedX, 0);
             }
         }
-        else
+        else if (!_winesClimbing && !_Storm)
         {
+            _rb.gravityScale = _basicGravityScale;
+
         }
     }
 
@@ -210,6 +213,30 @@ public class PlayerMovement : MonoBehaviour
         _jumpForce.x = 0;
     }
 
+    public void Death()
+    {
+        StartCoroutine(DeathAnim());
+        _rb.velocity = Vector2.zero;
+        _transform.position = _respawnPos;
+    }
+    public IEnumerator DeathAnim()
+    {
+        GetComponent<SpriteRenderer>().enabled = false;
+        yield return new WaitForSeconds(.1f);
+        GetComponent<SpriteRenderer>().enabled = true;
+        yield return new WaitForSeconds(.1f);
+        GetComponent<SpriteRenderer>().enabled = false;
+        yield return new WaitForSeconds(.1f);
+        GetComponent<SpriteRenderer>().enabled = true;
+        yield return new WaitForSeconds(.1f);
+        GetComponent<SpriteRenderer>().enabled = false;
+        yield return new WaitForSeconds(.1f);
+        GetComponent<SpriteRenderer>().enabled = true;
+        yield return new WaitForSeconds(.1f);
+        GetComponent<SpriteRenderer>().enabled = false;
+        yield return new WaitForSeconds(.1f);
+        GetComponent<SpriteRenderer>().enabled = true;
+    }
     public IEnumerator DoStorm(float _stormDuration, float _stormForce, GameObject se)
     {
         float time = 0f;
