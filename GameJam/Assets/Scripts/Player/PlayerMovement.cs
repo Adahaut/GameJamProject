@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     PlayerManager _manager;
     public GameObject WC1;
     public GameObject WC2;
+    public SpriteRenderer _spriteRenderer;
 
 
     public bool _grounded = false;
@@ -53,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
     public int _jumpMax;
     bool _climbingButt = false;
     bool _unClimbingButt = false;
+
+    Animator _animator;
     void Start()
     {
         _jumpMax = 2;
@@ -61,12 +64,14 @@ public class PlayerMovement : MonoBehaviour
         _basicGravityScale = _rb.gravityScale;
         _basicMass = _rb.mass;
         _manager = GetComponent<PlayerManager>();
+        _animator = GetComponent<Animator>();
     }
 
     void Update()
     {
         Move();
         AddSpeedVelY();
+        setAnim();
         if (_winesClimbing)
         {
             _rb.gravityScale = 0;
@@ -86,13 +91,32 @@ public class PlayerMovement : MonoBehaviour
         else if (!_winesClimbing && !_Storm)
         {
             _rb.gravityScale = _basicGravityScale;
-
         }
     }
 
     public void Movement(InputAction.CallbackContext ctx)
     {
         _velocity = ctx.ReadValue<Vector2>();
+    }
+
+    private void setAnim()
+    {
+        if (_rb.velocity.x < 0)
+        {
+            _spriteRenderer.flipX = true;
+        }
+        else if ( _rb.velocity.x > 0)
+        {
+            _spriteRenderer.flipX = false;
+        }
+        if (_grounded && Mathf.Abs(_rb.velocity.x) > 0.1f)
+        {
+            _animator.SetBool("IsRunning", true);
+        }
+        else if (_grounded && Mathf.Abs(_rb.velocity.x) < 0.1f)
+        {
+            _animator.SetBool("IsRunning", false);
+        }
     }
 
     public void EnterWater()
