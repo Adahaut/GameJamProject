@@ -1,0 +1,45 @@
+{
+    "name": "PauseInput",
+    "maps": [
+        {
+            "name": "SetPauseMenu",
+            "id": "9b679ad7-3ea8-4091-b64f-a3e6a5a1b3d3",
+            "actions": [
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "22c507c8-1bda-403c-8351-bbe76eb5cb77",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7273110d-4bd9-46f6-bb30-a2841a7429e1",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "384d2df3-014d-48ef-8967-9ef449d4d570",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
