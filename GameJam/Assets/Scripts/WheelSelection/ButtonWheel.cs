@@ -34,6 +34,8 @@ public class ButtonWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void SetHovered()
     {
+        if (animator == null)
+            animator = GetComponent<Animator>();
         hovered = true;
         animator.SetBool("Hovered", true);
         selectedButtonText.text = selectedButton;

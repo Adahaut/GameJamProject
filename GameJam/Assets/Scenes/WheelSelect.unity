@@ -857,6 +857,18 @@ MonoBehaviour:
     m_ActionId: b4537cfe-cbc6-41db-9f91-8935515abb21
     m_ActionName: PlayerMovement/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 79364698-96be-4646-83d3-7ea1be7be912
+    m_ActionName: PlayerMovement/WineUp[/XInputControllerWindows/leftStick/up,/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 94950004-c85f-4f19-a985-ad861e007cf0
+    m_ActionName: PlayerMovement/WineDown[/XInputControllerWindows/leftStick/down,/Keyboard/s]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 900ee4a5-0d90-461f-a901-97c0ab4f7c4c
+    m_ActionName: PlayerMovement/LaunchEvent[/Keyboard/p]
+  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 384986136}
         m_TargetAssemblyTypeName: WheelManager, Assembly-CSharp
@@ -870,40 +882,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: c4409608-3210-409c-84fb-afb1ff941f87
-    m_ActionName: PlayerMovement/OpenPanel[/XInputControllerWindows/leftTrigger]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 384986136}
-        m_TargetAssemblyTypeName: WheelManager, Assembly-CSharp
-        m_MethodName: StayOpenedWheel
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 243f1442-20ad-4967-9f0f-4abacf652ead
-    m_ActionName: SelectionWheel/OpenWheel[/XInputControllerWindows/leftTrigger]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 384986136}
-        m_TargetAssemblyTypeName: WheelManager, Assembly-CSharp
-        m_MethodName: MoveLeftJoystick
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 985e6fbc-ab60-4ebd-96a4-2ecd588feb93
-    m_ActionName: SelectionWheel/LeftJoystickAxis[/XInputControllerWindows/leftStick]
+    m_ActionId: 50711812-4f3c-4043-b759-9d19d6350931
+    m_ActionName: PlayerMovement/OpenWheel[/XInputControllerWindows/leftTrigger]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 384986136}
@@ -918,8 +898,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 6a84cb04-335a-44cd-9d27-8b71fa3a5eeb
-    m_ActionName: PlayerMovement/ShiftOpenPanel[/Keyboard/leftShift]
+    m_ActionId: 334f84a0-d5d3-46bf-9450-26df51e65cbb
+    m_ActionName: PlayerMovement/ShiftOpenWheel[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 384986136}
+        m_TargetAssemblyTypeName: WheelManager, Assembly-CSharp
+        m_MethodName: StayOpenedWheel
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1bb49b38-f4fb-4b13-a9e1-a43acb3656c5
+    m_ActionName: SelectionWheel/OpenWheels[/XInputControllerWindows/leftTrigger]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 384986136}
@@ -934,8 +930,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 8cd1d015-079b-402e-b410-04488a024ffe
+    m_ActionId: a0d5b604-706b-4713-bbb8-ff8159a9498c
     m_ActionName: SelectionWheel/Select[/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 384986136}
+        m_TargetAssemblyTypeName: WheelManager, Assembly-CSharp
+        m_MethodName: MoveLeftJoystick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fba88a7f-d9e8-4f1e-87f4-fb43658c2e0f
+    m_ActionName: SelectionWheel/LeftJoystick[/XInputControllerWindows/leftStick/right]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerMovement
@@ -2312,7 +2324,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1556783903
 RectTransform:
   m_ObjectHideFlags: 0

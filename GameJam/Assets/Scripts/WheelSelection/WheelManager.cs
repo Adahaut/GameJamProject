@@ -78,6 +78,8 @@ public class WheelManager : MonoBehaviour
 
     public void MoveLeftJoystick(InputAction.CallbackContext ctx)
     {
+        if(selectedButton != null)
+            selectedButton.SetUnHovered();
         Vector2 joystickPosition = ctx.ReadValue<Vector2>();
         foreach (var wheel in currentList)
         {
