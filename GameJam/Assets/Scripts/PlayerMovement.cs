@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D _rb;
     Vector2 _velocity;
     public Vector2 _jumpForce = new Vector2(0,5);
+
+
     public bool _grounded = false;
     public bool _canWallJumpR = false;
     public bool _canWallJumpL = false;
@@ -16,6 +18,9 @@ public class PlayerMovement : MonoBehaviour
     public bool _HasJumpedL = false;
     public bool _winesClimbing = false;
     public bool _inWater = false;
+    public bool _Storm = false;
+
+
     public float _maxVel;
     public float _speedFactor;
     public float _climbSpeed;
@@ -25,13 +30,21 @@ public class PlayerMovement : MonoBehaviour
     public float _velYFactor;
     public float _velYFactorWallJump;
     public float _wallJumpForceX;
+
+
     public LayerMask _groundLayer;
     public LayerMask _wallLayer;
+
+
     public float _timerFrictionX;
     public float _frictionDelay;
+
+
     float _basicGravityScale;
     float _basicMass;
     public float _waterMass;
+
+
     int _jumpCount;
     bool _climbingButt = false;
     bool _unClimbingButt = false;
@@ -65,7 +78,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            _rb.gravityScale = _basicGravityScale;
         }
     }
 
@@ -90,9 +102,10 @@ public class PlayerMovement : MonoBehaviour
     }
     public void IsGrounded()
     {
-        if (!_winesClimbing)
+        if (!_winesClimbing && !_Storm)
         {
             _grounded = true;
+            _rb.gravityScale = _basicGravityScale;
         }
         _rb.velocity = new(_rb.velocity.x, 0);
         _HasJumpedR = false;
@@ -195,5 +208,24 @@ public class PlayerMovement : MonoBehaviour
         _canWallJumpR = false; _canWallJumpL = false;
         _timerFrictionX = Time.time + _frictionDelay;
         _jumpForce.x = 0;
+    }
+
+    public IEnumerator DoStorm(float _stormDuration, float _stormForce, GameObject se)
+    {
+        float time = 0f;
+        _Storm = true;
+        _rb.gravityScale = -_stormForce;
+        se.SetActive(true);
+        se.GetComponent<ParticleSystem>().Play();
+        se.transform.position = _transform.position;
+        yield return new WaitForSeconds(_stormDuration);
+
+        _rb.gravityScale = _basicGravityScale;
+        _Storm = false;
+    }
+
+    public void ActiveStorm(float s, float f, GameObject SE)
+    {
+        StartCoroutine(DoStorm(s, f, SE));
     }
 }
