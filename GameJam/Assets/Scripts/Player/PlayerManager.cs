@@ -12,7 +12,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
 
 
-    private int ageState = 0;
+    public int ageState = 0;
 
     public List<Sprite> spriteStatePlayer = new();
 
@@ -30,9 +30,8 @@ public class PlayerManager : MonoBehaviour
             {
                 return;
             }
-            ageState++;
-            playerSprite.sprite = spriteStatePlayer[ageState];
             Destroy(collision.gameObject);
+            AgeUp();
         }
         else if(collision.tag == "TriggerEventCamera")
         {
@@ -48,5 +47,18 @@ public class PlayerManager : MonoBehaviour
     {
         cameraManager.EndFollow();
         playerInput.enabled = true;
+    }
+
+    private void AgeUp()
+    {
+        print("aaa");
+        ageState++;
+        playerSprite.sprite = spriteStatePlayer[ageState];
+        if (ageState == 2)
+        {
+            playerMovement._jumpMax = 1;
+            playerMovement.WC1.SetActive(false);
+            playerMovement.WC2.SetActive(false);
+        }
     }
 }

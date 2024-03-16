@@ -10,6 +10,9 @@ public class PlayerMovement : MonoBehaviour
     Vector2 _velocity;
     public Vector2 _jumpForce = new Vector2(0,5);
     public Vector2 _respawnPos;
+    PlayerManager _manager;
+    public GameObject WC1;
+    public GameObject WC2;
 
 
     public bool _grounded = false;
@@ -46,15 +49,18 @@ public class PlayerMovement : MonoBehaviour
     public float _waterMass;
 
 
-    int _jumpCount;
+    public int _jumpCount;
+    public int _jumpMax;
     bool _climbingButt = false;
     bool _unClimbingButt = false;
     void Start()
     {
+        _jumpMax = 2;
         _transform = transform;
         _rb = GetComponent<Rigidbody2D>();
         _basicGravityScale = _rb.gravityScale;
         _basicMass = _rb.mass;
+        _manager = GetComponent<PlayerManager>();
     }
 
     void Update()
@@ -137,13 +143,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void AddSpeedVelY()
     {
-        if (_rb.velocity.y < 0 && ((!_canWallJumpR && !_canWallJumpL) && !_grounded))
+        if (!_winesClimbing)
         {
-            _rb.velocity = new(_rb.velocity.x, _rb.velocity.y - _velYFactor);
-        }
-        else if (_rb.velocity.y < 0 && ((_canWallJumpR || _canWallJumpL) && !_grounded))
-        {
-            _rb.velocity = new(_rb.velocity.x, _rb.velocity.y + _velYFactorWallJump);
+            if (_rb.velocity.y < 0 && ((!_canWallJumpR && !_canWallJumpL) && !_grounded))
+            {
+                _rb.velocity = new(_rb.velocity.x, _rb.velocity.y - _velYFactor);
+            }
+            else if (_rb.velocity.y < 0 && ((_canWallJumpR || _canWallJumpL) && !_grounded))
+            {
+                _rb.velocity = new(_rb.velocity.x, _rb.velocity.y + _velYFactorWallJump);
+            }
         }
     }
 
@@ -152,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (ctx.started)
         {
-            if (_grounded || _jumpCount < 2 && (!_canWallJumpL && !_canWallJumpR)) 
+            if (_grounded || _jumpCount < _jumpMax && (!_canWallJumpL && !_canWallJumpR)) 
             {
                 _jumpCount++;
                 Jumping();
@@ -253,6 +262,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void ActiveStorm(float s, float f, GameObject SE)
     {
-        StartCoroutine(DoStorm(s, f, SE));
+        if (_manager.ageState >= 3)
+            StartCoroutine(DoStorm(s, f, SE));
     }
 }
