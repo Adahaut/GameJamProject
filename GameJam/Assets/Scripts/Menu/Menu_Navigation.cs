@@ -26,7 +26,7 @@ public class Menu_Navigation : MonoBehaviour
 
     public void LaunchGame()
     {
-        SceneManager.LoadScene(0); //Mettre l'index ou le nom de la scène de jeu
+        SceneManager.LoadScene("Clement"); //Mettre l'index ou le nom de la scène de jeu
     }
 
     public void SettingsButton()
