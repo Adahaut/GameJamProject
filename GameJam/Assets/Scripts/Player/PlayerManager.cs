@@ -15,10 +15,14 @@ public class PlayerManager : MonoBehaviour
     public int ageState = 0;
 
     public List<Sprite> spriteStatePlayer = new();
+    public GameObject artefact;
+
+    bool hasArtefact = false;
 
     private void Start()
     {
         playerMovement._spriteRenderer.sprite = spriteStatePlayer[ageState];
+        artefact.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -41,6 +45,12 @@ public class PlayerManager : MonoBehaviour
             Invoke("EndFollowTarget", parameters.time);
             Destroy(collision.gameObject);
         }
+        else if(collision.tag == "Artefact")
+        {
+            hasArtefact = true;
+            artefact.SetActive(true);
+            Destroy(collision.gameObject);
+        }
     }
 
     private void EndFollowTarget()
@@ -51,7 +61,6 @@ public class PlayerManager : MonoBehaviour
 
     private void AgeUp()
     {
-        print("aaa");
         ageState++;
         playerMovement._spriteRenderer.sprite = spriteStatePlayer[ageState];
         if (ageState == 2)
