@@ -30,7 +30,7 @@ public class IsGrounded : MonoBehaviour
     {
         if (collision.tag == "Floor")
         {
-            _pM._grounded = false;
+            _pM.ExitGround();
         }
         else if (collision.tag == "Water")
         {

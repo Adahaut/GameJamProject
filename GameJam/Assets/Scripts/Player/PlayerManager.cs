@@ -18,7 +18,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        playerSprite.sprite = spriteStatePlayer[ageState];
+        playerMovement._spriteRenderer.sprite = spriteStatePlayer[ageState];
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -53,7 +53,7 @@ public class PlayerManager : MonoBehaviour
     {
         print("aaa");
         ageState++;
-        playerSprite.sprite = spriteStatePlayer[ageState];
+        playerMovement._spriteRenderer.sprite = spriteStatePlayer[ageState];
         if (ageState == 2)
         {
             playerMovement._jumpMax = 1;

@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     PlayerManager _manager;
     public GameObject WC1;
     public GameObject WC2;
+    public SpriteRenderer _spriteRenderer;
 
 
     public bool _grounded = false;
@@ -53,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
     public int _jumpMax;
     bool _climbingButt = false;
     bool _unClimbingButt = false;
+
+    Animator _animator;
     void Start()
     {
         _jumpMax = 2;
@@ -61,12 +64,14 @@ public class PlayerMovement : MonoBehaviour
         _basicGravityScale = _rb.gravityScale;
         _basicMass = _rb.mass;
         _manager = GetComponent<PlayerManager>();
+        _animator = GetComponent<Animator>();
     }
 
     void Update()
     {
         Move();
         AddSpeedVelY();
+        setAnim();
         if (_winesClimbing)
         {
             _rb.gravityScale = 0;
@@ -86,13 +91,57 @@ public class PlayerMovement : MonoBehaviour
         else if (!_winesClimbing && !_Storm)
         {
             _rb.gravityScale = _basicGravityScale;
-
         }
     }
 
     public void Movement(InputAction.CallbackContext ctx)
     {
         _velocity = ctx.ReadValue<Vector2>();
+    }
+
+    private void setAnim()
+    {
+        if (_rb.velocity.x < -0.05f)
+        {
+            _spriteRenderer.flipX = true;
+        }
+        else if ( _rb.velocity.x > 0.05f)
+        {
+            _spriteRenderer.flipX = false;
+        }
+
+        if (_grounded && Mathf.Abs(_rb.velocity.x) > 0.1f)
+        {
+            _animator.SetBool("IsRunning", true);
+        }
+        else
+        {
+            _animator.SetBool("IsRunning", false);
+        }
+
+        if (_canWallJumpL || _canWallJumpR)
+        {
+            if(_animator.GetBool("WallSlide") == false)
+            {
+                _animator.Play("WallSlide");
+                _animator.SetBool("WallSlide", true);
+            }
+            
+        }
+        else
+        {
+            _animator.SetBool("WallSlide", false);
+        }
+
+        if(_rb.velocity.y < -0.001f) 
+        {
+            _animator.SetBool("Falling", true);
+        }
+        else
+        {
+            _animator.SetBool("Falling", false);
+        }
+
     }
 
     public void EnterWater()
@@ -113,6 +162,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!_winesClimbing && !_Storm)
         {
+            _animator.SetBool("Jumping", false);
+            _animator.SetBool("Grounded", true);
+            _animator.Play("Idle", -1, 0f);
             _grounded = true;
             _rb.gravityScale = _basicGravityScale;
         }
@@ -121,6 +173,13 @@ public class PlayerMovement : MonoBehaviour
         _HasJumpedL = false;
         _jumpCount = 0;
     }
+
+    public void ExitGround()
+    {
+        _grounded = false;
+        _animator.SetBool("Grounded", false);
+    }
+
     private void Move()
     {
         if (_velocity.x != 0)
@@ -177,6 +236,9 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jumping()
     {
+        _animator.Play("Jump", -1, 0f);
+        _animator.SetBool("Jumping", true);
+        _animator.SetBool("Falling", false);
         _rb.velocity = new(_rb.velocity.x, 0);
         _rb.AddForce(_jumpForce, ForceMode2D.Impulse);
     }
@@ -220,6 +282,8 @@ public class PlayerMovement : MonoBehaviour
         _canWallJumpR = false; _canWallJumpL = false;
         _timerFrictionX = Time.time + _frictionDelay;
         _jumpForce.x = 0;
+        _animator.SetBool("Jumping", true);
+        _animator.SetBool("Falling", false);
     }
 
     public void Death()
