@@ -20,6 +20,10 @@ public class IsGrounded : MonoBehaviour
         {
             _pM.EnterWater();
         }
+        else if (collision.tag == "Spike")
+        {
+            _pM.Death();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
