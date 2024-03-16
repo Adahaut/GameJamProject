@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4351106869160082189}
   - component: {fileID: 2364542785868497644}
   - component: {fileID: 4687718034349062329}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: IsGrounded
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,7 +65,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0023825169, y: -0.5017962}
+  m_Offset: {x: -0.0023825169, y: -0.4952721}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -76,7 +76,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9982896, y: 0.027884364}
+  m_Size: {x: 0.9982896, y: 0.014836192}
   m_EdgeRadius: 0
 --- !u!114 &4687718034349062329
 MonoBehaviour:
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 1558607892112056056}
   - component: {fileID: 8930308272508183760}
   - component: {fileID: 5386497194793647095}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: WallJumpCheckR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,6 +194,7 @@ GameObject:
   - component: {fileID: 6982303254841040619}
   - component: {fileID: 4267381185961134462}
   - component: {fileID: 7975454876036855564}
+  - component: {fileID: 2636557139847470763}
   m_Layer: 2
   m_Name: Player
   m_TagString: Player
@@ -259,7 +260,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -362,9 +363,9 @@ MonoBehaviour:
     m_ActionName: PlayerMovement/WineUp1[/SwitchProControllerHID/leftStick/down,/Keyboard/s]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6982303254841040619}
-        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
-        m_MethodName: P
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: EventManager, Assembly-CSharp
+        m_MethodName: Storm
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -374,8 +375,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: e6b9a395-0f3b-4308-88ce-2d5df9a60099
-    m_ActionName: PlayerMovement/TimeScale0[/Keyboard/escape]
+    m_ActionId: 900ee4a5-0d90-461f-a901-97c0ab4f7c4c
+    m_ActionName: PlayerMovement/LaunchEvent[/Keyboard/p]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerMovement
@@ -394,6 +395,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _jumpForce: {x: 0, y: 12}
+  _respawnPos: {x: 0, y: 0}
+  WC1: {fileID: 4200724696062720494}
+  WC2: {fileID: 7643670413990743944}
   _grounded: 0
   _canWallJumpR: 0
   _canWallJumpL: 0
@@ -401,6 +405,7 @@ MonoBehaviour:
   _HasJumpedL: 0
   _winesClimbing: 0
   _inWater: 0
+  _Storm: 0
   _maxVel: 8
   _speedFactor: 2000
   _climbSpeed: 800
@@ -419,6 +424,8 @@ MonoBehaviour:
   _timerFrictionX: 0
   _frictionDelay: 0.7
   _waterMass: 10
+  _jumpCount: 0
+  _jumpMax: 0
 --- !u!50 &4267381185961134462
 Rigidbody2D:
   serializedVersion: 4
@@ -444,7 +451,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &7975454876036855564
 CapsuleCollider2D:
@@ -481,6 +488,28 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 1}
   m_Direction: 0
+--- !u!114 &2636557139847470763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5221906601076860585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b418ad10378d4bb479c2fab3941030d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSprite: {fileID: 8026058088664886117}
+  playerMovement: {fileID: 6982303254841040619}
+  cameraManager: {fileID: 0}
+  playerInput: {fileID: 1150324087125646608}
+  ageState: 0
+  spriteStatePlayer:
+  - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
 --- !u!1 &7643670413990743944
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,7 +521,7 @@ GameObject:
   - component: {fileID: 1292145018987319621}
   - component: {fileID: 238009284835504960}
   - component: {fileID: 86971245380491416}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: WallJumpCheckL
   m_TagString: Untagged
   m_Icon: {fileID: 0}

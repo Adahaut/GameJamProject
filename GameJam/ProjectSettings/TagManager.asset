@@ -20,10 +20,11 @@ TagManager:
   - Water
   - UI
   - Wall
-  - WallJumpCheck
+  - WallJumpChec
   - PostProcessing
   - 
-  - 
+  -
+  - PlayerCheck
   - 
   - 
   - 
