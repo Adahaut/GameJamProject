@@ -360,6 +360,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 94950004-c85f-4f19-a985-ad861e007cf0
     m_ActionName: PlayerMovement/WineUp1[/SwitchProControllerHID/leftStick/down,/Keyboard/s]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6982303254841040619}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: P
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e6b9a395-0f3b-4308-88ce-2d5df9a60099
+    m_ActionName: PlayerMovement/TimeScale0[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerMovement
@@ -384,10 +400,11 @@ MonoBehaviour:
   _HasJumpedR: 0
   _HasJumpedL: 0
   _winesClimbing: 0
+  _inWater: 0
   _maxVel: 8
   _speedFactor: 2000
   _climbSpeed: 800
-  _climbSpeedX: 0.9
+  _climbSpeedX: 1.2
   _frictionX: 0.93
   _frictionY: 10
   _velYFactor: 0.1

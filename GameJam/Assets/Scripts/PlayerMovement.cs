@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public bool _HasJumpedR = false;
     public bool _HasJumpedL = false;
     public bool _winesClimbing = false;
+    public bool _inWater = false;
     public float _maxVel;
     public float _speedFactor;
     public float _climbSpeed;
@@ -51,15 +52,15 @@ public class PlayerMovement : MonoBehaviour
             _rb.gravityScale = 0;
             if (_climbingButt)
             {
-                _rb.velocity = new(_rb.velocity.x * _climbSpeedX * Time.deltaTime, _climbSpeed * Time.deltaTime);
+                _rb.velocity = new(0, _climbSpeed * Time.deltaTime);
             }
             else if (_unClimbingButt)
             {
-                _rb.velocity = new(_rb.velocity.x * _climbSpeedX * Time.deltaTime, -_climbSpeed * Time.deltaTime);
+                _rb.velocity = new(0, -_climbSpeed * Time.deltaTime);
             }
             else if (!_climbingButt || !_unClimbingButt)
             {
-                _rb.velocity = new(0, 0);
+                _rb.velocity = new(_rb.velocity.x/_climbSpeedX, 0);
             }
         }
         else
@@ -79,13 +80,13 @@ public class PlayerMovement : MonoBehaviour
         _rb.mass = _waterMass;
         _grounded = false;
         _jumpCount = 2;
+        _inWater = true;
     }
 
     public void ExitWater()
     {
         _rb.mass = _basicMass;
-        _grounded = true;
-        _jumpCount = 0;
+        _inWater = false;
     }
     public void IsGrounded()
     {
@@ -159,6 +160,18 @@ public class PlayerMovement : MonoBehaviour
     public void UnClimb(InputAction.CallbackContext ctx)
     {
         _unClimbingButt = ctx.ReadValueAsButton();
+    }
+
+    public void P(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed && Time.timeScale == 1)
+        {
+            Time.timeScale = 0;
+        }
+        else if (ctx.performed && Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
     }
     private void WallJump(bool _isRight)
     {

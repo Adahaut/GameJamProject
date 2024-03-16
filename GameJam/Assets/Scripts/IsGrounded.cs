@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class IsGrounded : MonoBehaviour
 {
+    PlayerMovement _pM;
+
+    private void Start()
+    {
+        _pM = GetComponentInParent<PlayerMovement>();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Floor")
         {
-            GetComponentInParent<PlayerMovement>()._grounded = true;
-            GetComponentInParent<PlayerMovement>().IsGrounded();
+            _pM._grounded = true;
+            _pM.IsGrounded();
         }
         else if (collision.tag == "Water")
         {
-            GetComponentInParent<PlayerMovement>().EnterWater();
+            _pM.EnterWater();
         }
     }
 
@@ -21,11 +27,11 @@ public class IsGrounded : MonoBehaviour
     {
         if (collision.tag == "Floor")
         {
-            GetComponentInParent<PlayerMovement>()._grounded = false;
+            _pM._grounded = false;
         }
         else if (collision.tag == "Water")
         {
-            GetComponentInParent<PlayerMovement>().ExitWater();
+            _pM.ExitWater();
         }
     }
 }

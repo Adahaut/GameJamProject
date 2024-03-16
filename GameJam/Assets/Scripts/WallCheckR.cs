@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class WallCheckR : MonoBehaviour
 {
+    PlayerMovement _pM;
+
+    private void Start()
+    {
+        _pM = GetComponentInParent<PlayerMovement>();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Wall")
         {
-            GetComponentInParent<PlayerMovement>()._canWallJumpR = true;
+            _pM._canWallJumpR = true;
         }
     }
 
@@ -16,7 +22,7 @@ public class WallCheckR : MonoBehaviour
     {
         if (collision.tag == "Wall")
         {
-            GetComponentInParent<PlayerMovement>()._canWallJumpR = false;
+            _pM._canWallJumpR = false;
         }
     }
 }
