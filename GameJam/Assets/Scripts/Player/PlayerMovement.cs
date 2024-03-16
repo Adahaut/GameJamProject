@@ -143,13 +143,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void AddSpeedVelY()
     {
-        if (_rb.velocity.y < 0 && ((!_canWallJumpR && !_canWallJumpL) && !_grounded))
+        if (!_winesClimbing)
         {
-            _rb.velocity = new(_rb.velocity.x, _rb.velocity.y - _velYFactor);
-        }
-        else if (_rb.velocity.y < 0 && ((_canWallJumpR || _canWallJumpL) && !_grounded))
-        {
-            _rb.velocity = new(_rb.velocity.x, _rb.velocity.y + _velYFactorWallJump);
+            if (_rb.velocity.y < 0 && ((!_canWallJumpR && !_canWallJumpL) && !_grounded))
+            {
+                _rb.velocity = new(_rb.velocity.x, _rb.velocity.y - _velYFactor);
+            }
+            else if (_rb.velocity.y < 0 && ((_canWallJumpR || _canWallJumpL) && !_grounded))
+            {
+                _rb.velocity = new(_rb.velocity.x, _rb.velocity.y + _velYFactorWallJump);
+            }
         }
     }
 
