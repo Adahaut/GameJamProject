@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Floor
   - TriggerAgeUp
+  - TriggerEventCamera
   layers:
   - Default
   - TransparentFX
