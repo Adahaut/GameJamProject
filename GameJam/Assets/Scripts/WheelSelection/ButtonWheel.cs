@@ -10,6 +10,7 @@ public class ButtonWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private TextMeshProUGUI selectedButtonText;
 
     [SerializeField] private string selectedButton;
+    [SerializeField] private Seasons buttonSeason;
 
     public Vector2 minJoystickPosition;
     public Vector2 maxJoystickPosition;
@@ -48,7 +49,8 @@ public class ButtonWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void SetSeason()
     {
-        //TODO : LINK WITH SEASON MANAGER
+        SeasonManager.instance.ChangeSeason(buttonSeason);
+        //WheelManager.instance.DisableWheels();
     }
 
 }

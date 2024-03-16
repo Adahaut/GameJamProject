@@ -3,7 +3,7 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class SeasonManager : MonoBehaviour
 {
-    public SeasonManager instance {  get; private set; }
+    public static SeasonManager instance {  get; private set; }
 
     public Seasons currentSeason;
 
@@ -22,13 +22,13 @@ public class SeasonManager : MonoBehaviour
 
     private void Start()
     {
-        ChangeSeason(Seasons.SPRING);
+        ChangeSeason(Seasons.SUMMER);
     }
 
     public void ChangeSeason(Seasons season)
     {
         currentSeason = season;
-        switch(currentSeason)
+        switch(season)
         {
             case Seasons.SPRING:
                 postProcess.profile = springProfile;
@@ -45,6 +45,15 @@ public class SeasonManager : MonoBehaviour
         }
     }
 
+    public void TornadeEvent()
+    {
+        Debug.Log("Tornado");
+    }
+
+    public void FloodEvent()
+    {
+        Debug.Log("Flood");
+    }
 
 }
 
