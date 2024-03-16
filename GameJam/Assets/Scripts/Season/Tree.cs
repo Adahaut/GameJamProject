@@ -15,26 +15,26 @@ public class Tree : SeasonObject
         leaf.SetActive(false);
     }
 
-    public override void SeasonChanged(string season)
+    public override void SeasonChanged(Seasons season)
     {
         switch(season)
         {
-            case "summer":
+            case Seasons.SUMMER:
                 treeSprite.sprite = treeSpriteWithLeaves;
                 leaf.SetActive(false);
                 break;
 
-            case "winter":
+            case Seasons.WINTER:
                 treeSprite.sprite = treeSpriteWithoutLeaves;
                 leaf.SetActive(false);
                 break;
             
-            case "fall":
+            case Seasons.AUTUMN:
                 treeSprite.sprite = treeSpriteWithoutLeaves;
                 leaf.SetActive(true);
                 break;
                 
-            case "spring":
+            case Seasons.SPRING:
                 treeSprite.sprite = treeSpriteWithLeaves;
                 leaf.SetActive(false);
                 break;  

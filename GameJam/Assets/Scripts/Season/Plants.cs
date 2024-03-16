@@ -9,23 +9,23 @@ public class Plants : SeasonObject
     public Sprite underGroundPlants;
     public Sprite growingPlants;
 
-    public override void SeasonChanged(string season)
+    public override void SeasonChanged(Seasons season)
     {
         switch (season)
         {
-            case "summer":
+            case Seasons.SUMMER:
                 plants.sprite = growingPlants;
                 break;
 
-            case "winter":
+            case Seasons.WINTER:
                 plants.sprite = underGroundPlants;
                 break;
 
-            case "fall":
+            case Seasons.AUTUMN:
                 plants.sprite = underGroundPlants;
                 break;
 
-            case "spring":
+            case Seasons.SPRING:
                 plants.sprite = underGroundPlants;
                 break;
         }

@@ -19,29 +19,34 @@ public class River : SeasonObject
     public Sprite fullRiver;
     public Sprite NoRiver;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         targetWaterPosition = water.position;
         ResetWater();
     }
 
-    public override void SeasonChanged(string season)
+    public override void SeasonChanged(Seasons season)
     {
         switch (season)
         {
-            case "summer":
+            case Seasons.SUMMER:
+                DrainWater();
                 river.sprite = NoRiver;
                 break;
 
-            case "winter":
+            case Seasons.WINTER:
+                ResetWater();
                 river.sprite = freezeRiver;
                 break;
 
-            case "fall":
+            case Seasons.AUTUMN:
+                ResetWater();
                 river.sprite = fullRiver;
                 break;
 
-            case "spring":
+            case Seasons.SPRING:
+                FillWater();
                 river.sprite = fullRiver;
                 break;
         }
