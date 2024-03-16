@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,7 +14,11 @@ public class PlayerMovement : MonoBehaviour
     PlayerManager _manager;
     public GameObject WC1;
     public GameObject WC2;
+    public GameObject _rain;
+    public Image _cloud;
     public SpriteRenderer _spriteRenderer;
+    public Vector2 initCloudPos;
+    public Vector2 endCloudPos;
 
 
     public bool _grounded = false;
@@ -24,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     public bool _winesClimbing = false;
     public bool _inWater = false;
     public bool _Storm = false;
+    public bool _Raining = false;
 
 
     public float _maxVel;
@@ -328,5 +334,35 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_manager.ageState >= 3)
             StartCoroutine(DoStorm(s, f, SE));
+    }
+
+    public IEnumerator DoRain(float _rainDuration)
+    {
+        _Raining = true;
+        float time = 0f;
+        while (time/(_rainDuration - 1) < 1)
+        {
+            time += Time.deltaTime;
+            _cloud.transform.position = Vector2.Lerp(initCloudPos, endCloudPos, time / (_rainDuration - 1));
+            yield return new WaitForEndOfFrame();
+        }
+        yield return new WaitForSeconds(0.5f);
+        _rain.GetComponent<ParticleSystem>().Play();
+        yield return new WaitForSeconds(_rainDuration);
+        _rain.GetComponent<ParticleSystem>().Stop();
+        time = 0f;
+        while (time / (_rainDuration - 1) < 1)
+        {
+            time += Time.deltaTime;
+            _cloud.transform.position = Vector2.Lerp(endCloudPos, initCloudPos, time / (_rainDuration - 1));
+            yield return new WaitForEndOfFrame();
+        }
+        _Raining = false;
+    }
+
+    public void ActiveRain(float s)
+    {
+        if (!_Raining)
+            StartCoroutine(DoRain(s));
     }
 }
