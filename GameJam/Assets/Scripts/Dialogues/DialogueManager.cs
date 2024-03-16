@@ -12,10 +12,12 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private Vector3 offset;
 
+    [SerializeField] private float timeToWriteTexts;
+
     private bool updateBubblePosition;
     private Transform target;
 
-    private List<TextQueue> queue;
+    private List<TextQueue> queue = new List<TextQueue>();
 
     public static DialogueManager instance {  get; private set; }
 
@@ -29,7 +31,6 @@ public class DialogueManager : MonoBehaviour
     {
         if(updateBubblePosition)
         {
-            Debug.Log(target.name);
             bubble.transform.position = Vector2.MoveTowards(bubble.transform.position, target.position + offset, 7 * Time.deltaTime);
         }
     }
@@ -45,25 +46,21 @@ public class DialogueManager : MonoBehaviour
             element.target = bubbleObjectToConnect;
 
         queue.Add(element);
-
-
-        //bubble.SetActive(true);
-        //bubbleDialogue.text = dialogue;
-        //if(bubbleObjectToConnect != null)
-        //{
-        //    target = bubbleObjectToConnect;
-        //}
-        //else
-        //{
-        //    target = player;
-        //}
-
-        //StartCoroutine(DisableTextAfterTime(time));
+        if(!bubble.activeSelf)
+            CheckQueue();
     }
 
     private void CheckQueue()
     {
+        if(queue.Count != 0)
+        {
+            bubble.SetActive(true);
+            StartCoroutine(ShowLetters(queue[0].text));
+            target = queue[0].target;
+            StartCoroutine(DisableTextAfterTime(queue[0].time));
+            queue.Remove(queue[0]);
 
+        }
     }
 
     IEnumerator DisableTextAfterTime(float time)
@@ -75,11 +72,16 @@ public class DialogueManager : MonoBehaviour
 
         updateBubblePosition = false;
         bubble.SetActive(false);
+        CheckQueue();
     }
 
-    public bool isBubbleActive()
+    IEnumerator ShowLetters(string text)
     {
-        return bubble.activeSelf;
+        for (int i = 0; i < text.Length; i++)
+        {
+            bubbleDialogue.text = text.Substring(0, i + 1);
+            yield return new WaitForSeconds(timeToWriteTexts / (float)text.Length);
+        }
     }
 }
 

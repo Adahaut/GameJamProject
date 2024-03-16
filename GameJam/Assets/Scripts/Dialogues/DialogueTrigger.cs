@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour
 {
-    [SerializeField] private string dialogue;
+    [SerializeField] private List<string> dialogues;
     [SerializeField] private Transform connectedObjectToBubble;
     [SerializeField] private float timeToDisplayText;
     private bool opened = false;    
@@ -12,7 +13,10 @@ public class DialogueTrigger : MonoBehaviour
         if (!opened)
         {
             opened = true;
-            DialogueManager.instance.AddDialogueToQueue(dialogue, timeToDisplayText, connectedObjectToBubble);
+            foreach(string dialogue in dialogues)
+            {
+                DialogueManager.instance.AddDialogueToQueue(dialogue, timeToDisplayText, connectedObjectToBubble);
+            }
         }
         
     }
