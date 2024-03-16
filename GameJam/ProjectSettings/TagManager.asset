@@ -9,6 +9,8 @@ TagManager:
   - Wine
   - player
   - Water
+  - TriggerAgeUp
+  - TriggerEventCamera
   layers:
   - Default
   - TransparentFX

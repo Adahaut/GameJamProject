@@ -47,8 +47,6 @@ public class CameraManager : MonoBehaviour
         }
 
 
-
-
         //Test camera shake
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -59,6 +57,17 @@ public class CameraManager : MonoBehaviour
         {
             followPlayer = !followPlayer;
         }
+    }
+
+    public void FollowTarget(Transform target, float time)
+    {
+        objectTarget = target;
+        followPlayer = false;
+    }
+
+    public void EndFollow()
+    {
+        followPlayer = true;
     }
 
     public void Shake(float amt,float lenght)
