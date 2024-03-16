@@ -101,22 +101,47 @@ public class PlayerMovement : MonoBehaviour
 
     private void setAnim()
     {
-        if (_rb.velocity.x < 0)
+        if (_rb.velocity.x < -0.05f)
         {
             _spriteRenderer.flipX = true;
         }
-        else if ( _rb.velocity.x > 0)
+        else if ( _rb.velocity.x > 0.05f)
         {
             _spriteRenderer.flipX = false;
         }
+
         if (_grounded && Mathf.Abs(_rb.velocity.x) > 0.1f)
         {
             _animator.SetBool("IsRunning", true);
         }
-        else if (_grounded && Mathf.Abs(_rb.velocity.x) < 0.1f)
+        else
         {
             _animator.SetBool("IsRunning", false);
         }
+
+        if (_canWallJumpL || _canWallJumpR)
+        {
+            if(_animator.GetBool("WallSlide") == false)
+            {
+                _animator.Play("WallSlide");
+                _animator.SetBool("WallSlide", true);
+            }
+            
+        }
+        else
+        {
+            _animator.SetBool("WallSlide", false);
+        }
+
+        if(_rb.velocity.y < -0.001f) 
+        {
+            _animator.SetBool("Falling", true);
+        }
+        else
+        {
+            _animator.SetBool("Falling", false);
+        }
+
     }
 
     public void EnterWater()
@@ -137,6 +162,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!_winesClimbing && !_Storm)
         {
+            _animator.SetBool("Jumping", false);
+            _animator.SetBool("Grounded", true);
+            _animator.Play("Idle", -1, 0f);
             _grounded = true;
             _rb.gravityScale = _basicGravityScale;
         }
@@ -145,6 +173,13 @@ public class PlayerMovement : MonoBehaviour
         _HasJumpedL = false;
         _jumpCount = 0;
     }
+
+    public void ExitGround()
+    {
+        _grounded = false;
+        _animator.SetBool("Grounded", false);
+    }
+
     private void Move()
     {
         if (_velocity.x != 0)
@@ -201,6 +236,9 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jumping()
     {
+        _animator.Play("Jump", -1, 0f);
+        _animator.SetBool("Jumping", true);
+        _animator.SetBool("Falling", false);
         _rb.velocity = new(_rb.velocity.x, 0);
         _rb.AddForce(_jumpForce, ForceMode2D.Impulse);
     }
@@ -244,6 +282,8 @@ public class PlayerMovement : MonoBehaviour
         _canWallJumpR = false; _canWallJumpL = false;
         _timerFrictionX = Time.time + _frictionDelay;
         _jumpForce.x = 0;
+        _animator.SetBool("Jumping", true);
+        _animator.SetBool("Falling", false);
     }
 
     public void Death()
