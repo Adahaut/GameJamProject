@@ -1012,6 +1012,7 @@ MonoBehaviour:
   springProfile: {fileID: 11400000, guid: 142da888ff8f9f44ebbf1995d8a86237, type: 2}
   summerProfile: {fileID: 11400000, guid: 261b2bb220bbde141849fb4e1927be72, type: 2}
   automnProfile: {fileID: 11400000, guid: a9257e861e113ec4084f35c2686b87b2, type: 2}
+  allObjects: []
 --- !u!1 &454815297
 GameObject:
   m_ObjectHideFlags: 0
