@@ -14,7 +14,6 @@ public class IsGrounded : MonoBehaviour
     {
         if (collision.tag == "Floor")
         {
-            _pM._grounded = true;
             _pM.IsGrounded();
         }
         else if (collision.tag == "Water")
@@ -32,6 +31,7 @@ public class IsGrounded : MonoBehaviour
         else if (collision.tag == "Water")
         {
             _pM.ExitWater();
+            _pM.IsGrounded();
         }
     }
 }

@@ -90,10 +90,14 @@ public class PlayerMovement : MonoBehaviour
     }
     public void IsGrounded()
     {
-            _rb.velocity = new(_rb.velocity.x, 0);
-            _HasJumpedR = false;
-            _HasJumpedL = false;
-            _jumpCount = 0;
+        if (!_winesClimbing)
+        {
+            _grounded = true;
+        }
+        _rb.velocity = new(_rb.velocity.x, 0);
+        _HasJumpedR = false;
+        _HasJumpedL = false;
+        _jumpCount = 0;
     }
     private void Move()
     {
