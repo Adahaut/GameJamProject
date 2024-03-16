@@ -25,7 +25,7 @@ public class SeasonManager : MonoBehaviour
 
     private void Start()
     {
-        ChangeSeason(Seasons.SUMMER);
+        //ChangeSeason(Seasons.SUMMER);
     }
 
     public void ChangeSeason(Seasons season)
