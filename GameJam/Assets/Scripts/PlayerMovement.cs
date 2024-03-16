@@ -9,24 +9,63 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D _rb;
     Vector2 _velocity;
     public Vector2 _jumpForce = new Vector2(0,5);
-    bool _grounded = false;
+    public bool _grounded = false;
+    public bool _canWallJumpR = false;
+    public bool _canWallJumpL = false;
+    public bool _HasJumpedR = false;
+    public bool _HasJumpedL = false;
+    public bool _winesClimbing = false;
     public float _maxVel;
     public float _speedFactor;
+    public float _climbSpeed;
+    public float _climbSpeedX;
     public float _frictionX;
     public float _frictionY;
     public float _velYFactor;
+    public float _velYFactorWallJump;
+    public float _wallJumpForceX;
     public LayerMask _groundLayer;
+    public LayerMask _wallLayer;
+    public float _timerFrictionX;
+    public float _frictionDelay;
+    float _basicGravityScale;
+    float _basicMass;
+    public float _waterMass;
+    int _jumpCount;
+    bool _climbingButt = false;
+    bool _unClimbingButt = false;
     void Start()
     {
         _transform = transform;
         _rb = GetComponent<Rigidbody2D>();
+        _basicGravityScale = _rb.gravityScale;
+        _basicMass = _rb.mass;
     }
 
-    // Update is called once per frame
     void Update()
     {
         Move();
         AddSpeedVelY();
+        if (_winesClimbing)
+        {
+            _rb.gravityScale = 0;
+            if (_climbingButt)
+            {
+                _rb.velocity = new(_rb.velocity.x * _climbSpeedX * Time.deltaTime, _climbSpeed * Time.deltaTime);
+            }
+            else if (_unClimbingButt)
+            {
+                _rb.velocity = new(_rb.velocity.x * _climbSpeedX * Time.deltaTime, -_climbSpeed * Time.deltaTime);
+            }
+            else if (!_climbingButt || !_unClimbingButt)
+            {
+                _rb.velocity = new(0, 0);
+            }
+        }
+        else
+        {
+            _rb.gravityScale = _basicGravityScale;
+        }
     }
 
     public void Movement(InputAction.CallbackContext ctx)
@@ -34,26 +73,32 @@ public class PlayerMovement : MonoBehaviour
         _velocity = ctx.ReadValue<Vector2>();
     }
 
-    bool IsGrounded()
+    public void EnterWater()
     {
-        Vector2 position = _transform.position;
-        Vector2 direction = Vector2.down;
-        float distance = 0.55f;
+        _rb.velocity = Vector2.zero;
+        _rb.mass = _waterMass;
+        _grounded = false;
+        _jumpCount = 2;
+    }
 
-        RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, _groundLayer);
-        if (hit.collider != null)
-        {
+    public void ExitWater()
+    {
+        _rb.mass = _basicMass;
+        _grounded = true;
+        _jumpCount = 0;
+    }
+    public void IsGrounded()
+    {
             _rb.velocity = new(_rb.velocity.x, 0);
-            return true;
-        }
-
-        return false;
+            _HasJumpedR = false;
+            _HasJumpedL = false;
+            _jumpCount = 0;
     }
     private void Move()
     {
         if (_velocity.x != 0)
         {
-            _rb.AddForce(new Vector2(_velocity.x * _speedFactor, 0), ForceMode2D.Force);
+            _rb.AddForce(new Vector2(_velocity.x * _speedFactor * Time.deltaTime, 0), ForceMode2D.Force) ;
             if (_rb.velocity.x >= _maxVel)
             {
                 _rb.velocity = new Vector2(_maxVel, _rb.velocity.y);
@@ -63,35 +108,39 @@ public class PlayerMovement : MonoBehaviour
                 _rb.velocity = new Vector2(-_maxVel, _rb.velocity.y);
             }
         }
-        else
+        else if (Time.time > _timerFrictionX)
         {
-            _rb.velocity = new (_rb.velocity.x * _frictionX, _rb.velocity.y);
+            _rb.velocity = new (_rb.velocity.x * _frictionX , _rb.velocity.y);
         }
     }
 
     private void AddSpeedVelY()
     {
-        if (_rb.velocity.y < 0)
+        if (_rb.velocity.y < 0 && ((!_canWallJumpR && !_canWallJumpL) && !_grounded))
         {
             _rb.velocity = new(_rb.velocity.x, _rb.velocity.y - _velYFactor);
         }
-    }
-
-    private void RemoveSpeedVelY()
-    {
-        if (_rb.velocity.y > 0)
+        else if (_rb.velocity.y < 0 && ((_canWallJumpR || _canWallJumpL) && !_grounded))
         {
-            _rb.velocity = new(_rb.velocity.x, _rb.velocity.y - _frictionY);
+            _rb.velocity = new(_rb.velocity.x, _rb.velocity.y + _velYFactorWallJump);
         }
     }
+
 
     public void Jump(InputAction.CallbackContext ctx)
     {
         if (ctx.started)
         {
-            if (IsGrounded()) 
+            if (_grounded || _jumpCount < 2 && (!_canWallJumpL && !_canWallJumpR)) 
             {
+                _jumpCount++;
                 Jumping();
+            }
+            else if (!_grounded && (_canWallJumpL || _canWallJumpR))
+            {
+                _jumpCount++;
+                if (_canWallJumpL && !_HasJumpedL) { WallJump(false); }
+                else if (_canWallJumpR && !_HasJumpedR) { WallJump(true); }
             }
         }
     }
@@ -100,5 +149,34 @@ public class PlayerMovement : MonoBehaviour
     {
         _rb.velocity = new(_rb.velocity.x, 0);
         _rb.AddForce(_jumpForce, ForceMode2D.Impulse);
+    }
+
+    public void Climb(InputAction.CallbackContext ctx)
+    {
+        _climbingButt = ctx.ReadValueAsButton();    
+    }
+
+    public void UnClimb(InputAction.CallbackContext ctx)
+    {
+        _unClimbingButt = ctx.ReadValueAsButton();
+    }
+    private void WallJump(bool _isRight)
+    {
+        if (_isRight)
+        {
+            _HasJumpedR = true;
+            _HasJumpedL = false;
+        }
+        else if (!_isRight)
+        {
+            _HasJumpedR = false;
+            _HasJumpedL = true;
+        }
+        _jumpForce.x = _isRight ? _wallJumpForceX : -_wallJumpForceX;
+        _rb.velocity = new(0, 0);
+        _rb.AddForce(_jumpForce, ForceMode2D.Impulse);
+        _canWallJumpR = false; _canWallJumpL = false;
+        _timerFrictionX = Time.time + _frictionDelay;
+        _jumpForce.x = 0;
     }
 }
