@@ -35,8 +35,10 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void AddDialogueToQueue(string dialogue, float time, Transform bubbleObjectToConnect = null)
+    public void AddDialogueToQueue(string dialogue, float time, Vector3 _offset, float timeToShow, Transform bubbleObjectToConnect = null)
     {
+        offset = _offset;
+        timeToWriteTexts = timeToShow;
         TextQueue element = new TextQueue();
         element.time = time;
         element.text = dialogue;
@@ -54,6 +56,8 @@ public class DialogueManager : MonoBehaviour
     {
         if(queue.Count != 0)
         {
+            if (!bubble.activeSelf)
+                bubble.transform.position = queue[0].target.position + offset;
             bubble.SetActive(true);
             StartCoroutine(ShowLetters(queue[0].text));
             target = queue[0].target;
@@ -71,7 +75,7 @@ public class DialogueManager : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         updateBubblePosition = false;
-        bubble.SetActive(false);
+        bubble.GetComponent<Bubble>().Disable();
         CheckQueue();
     }
 
