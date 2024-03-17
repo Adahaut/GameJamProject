@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class Menu_Navigation : MonoBehaviour
 {
+    [Header("GameObjects")]
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject settingsMenu;
     [SerializeField] GameObject creditsMenu;
@@ -15,11 +16,14 @@ public class Menu_Navigation : MonoBehaviour
     [SerializeField] GameObject backSettings;
     [SerializeField] GameObject backCredits;
 
+    [Header("Animators")]
+    [SerializeField] Animator mainMenuAnimator;
 
-        
+
     public void Start()
     {
         mainMenu.SetActive(true);
+        mainMenuAnimator.Play("LaunchGameMenu");
         settingsMenu.SetActive(false);
         creditsMenu.SetActive(false);
     }

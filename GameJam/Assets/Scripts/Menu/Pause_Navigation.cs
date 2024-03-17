@@ -13,36 +13,60 @@ public class Pause_Navigation : MonoBehaviour
     [SerializeField] Image background;
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject prefabMenuPause;
+    [SerializeField] GameObject settingsPauseMenu;
 
     [Header("Buttons")]
     [SerializeField] GameObject resumeBtn;
-    [SerializeField] GameObject settingsPauseMenu;
     [SerializeField] GameObject backPauseSettings;
     [SerializeField] GameObject backToMenu;
 
 
     [Header("Player Reference")]
-    [SerializeField] GameObject player;
     [SerializeField] PlayerInput playerInput;
+
+
+    [Header("Animators")]
+    [SerializeField] Animator backgroundAnimator;
+    [SerializeField] Animator pauseAnimator;
+    [SerializeField] Animator settingsAnimator;
 
 
     private void Start()
     {
         Time.timeScale = 1;
     }
+
     public void SetPause(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            playerInput.enabled = false;
-            Time.timeScale = 0;
-            EventSystem.current.SetSelectedGameObject(resumeBtn);
-            background.enabled = true;
-            prefabMenuPause.SetActive(true);
-            pauseMenu.SetActive(true);
-            settingsPauseMenu.SetActive(false);
+            if(!pauseMenu.activeInHierarchy && !settingsPauseMenu.activeInHierarchy)
+            {
+                SetPauseMenu();
+            }
+            else if(pauseMenu.activeInHierarchy)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                BackToPauseMenu();
+            }
         }
     }
+
+    private void SetPauseMenu()
+    {
+        playerInput.enabled = false;
+        Time.timeScale = 0;
+        EventSystem.current.SetSelectedGameObject(resumeBtn);
+        background.enabled = true;
+        prefabMenuPause.SetActive(true);
+        pauseMenu.SetActive(true);
+        pauseAnimator.Play("ButtonsPauseMenu", -1, 0f);
+        settingsPauseMenu.SetActive(false);
+    }
+
 
     public void ResumeGame()
     {
@@ -59,6 +83,7 @@ public class Pause_Navigation : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(backPauseSettings);
         pauseMenu.SetActive(false);
         settingsPauseMenu.SetActive(true);
+        settingsAnimator.Play("OpenSettings", -1, 0f);
     }
         
 
@@ -72,6 +97,7 @@ public class Pause_Navigation : MonoBehaviour
 
     public void BackToMenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
 }
