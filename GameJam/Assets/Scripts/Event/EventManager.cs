@@ -9,6 +9,7 @@ public class EventManager : MonoBehaviour
     PlayerMovement _pM;
     [SerializeField] GameObject _stormEffect;
     public float _stormDuration;
+    public float _rainDuration;
     public float _stormForce;
 
     private void Start()
@@ -19,7 +20,11 @@ public class EventManager : MonoBehaviour
     {
         if (ctx.performed)
         {
-            _pM.ActiveStorm(_stormDuration, _stormForce, _stormEffect);
+            print("event");
+            //_pM.ActiveStorm(_stormDuration, _stormForce, _stormEffect);
+            _pM.ActiveRain(_rainDuration);
         }
     }
+
+
 }

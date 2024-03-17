@@ -239,7 +239,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.48616692, y: 0.0043407083}
+  m_Offset: {x: -0.23600435, y: 0.0043407083}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -250,7 +250,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.11448151, y: 0.88714004}
+  m_Size: {x: 0.045049667, y: 0.88714004}
   m_EdgeRadius: 0
 --- !u!114 &5386497194793647095
 MonoBehaviour:
@@ -431,6 +431,8 @@ MonoBehaviour:
   _respawnPos: {x: 0, y: 0}
   WC1: {fileID: 4200724696062720494}
   WC2: {fileID: 7643670413990743944}
+  _rain: {fileID: 0}
+  _cloud: {fileID: 0}
   _spriteRenderer: {fileID: 2760543684850805023}
   _grounded: 0
   _canWallJumpR: 0
@@ -440,6 +442,7 @@ MonoBehaviour:
   _winesClimbing: 0
   _inWater: 0
   _Storm: 0
+  _Raining: 0
   _maxVel: 8
   _speedFactor: 2000
   _climbSpeed: 800
@@ -520,7 +523,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.4400797, y: 1}
   m_Direction: 0
 --- !u!114 &2636557139847470763
 MonoBehaviour:
@@ -630,7 +633,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.48182482, y: 0.0043407083}
+  m_Offset: {x: 0.27858853, y: 0.0043407083}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -641,7 +644,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.07107222, y: 0.88714004}
+  m_Size: {x: 0.05370283, y: 0.88714004}
   m_EdgeRadius: 0
 --- !u!114 &86971245380491416
 MonoBehaviour:
