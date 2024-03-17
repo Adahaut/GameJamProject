@@ -332,7 +332,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void ActiveStorm(float s, float f, GameObject SE)
     {
-        if (_manager.ageState >= 3)
+        if (_manager.ageState >= 2 && !_Storm && _grounded)
             StartCoroutine(DoStorm(s, f, SE));
     }
 
@@ -362,7 +362,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void ActiveRain(float s)
     {
-        if (!_Raining)
+        if (!_Raining && _manager.ageState >= 2)
             StartCoroutine(DoRain(s));
     }
 }

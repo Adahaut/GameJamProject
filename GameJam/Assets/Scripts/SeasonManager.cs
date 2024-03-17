@@ -16,7 +16,13 @@ public class SeasonManager : MonoBehaviour
     [SerializeField] private PostProcessProfile summerProfile;
     [SerializeField] private PostProcessProfile automnProfile;
 
+    public PlayerMovement playerMovement;
+    public GameObject stormGO;
     public List<SeasonObject> allObjects;
+
+    public float stormDuration;
+    public float rainDuration;
+    public float force;
 
     private void Awake()
     {
@@ -55,11 +61,13 @@ public class SeasonManager : MonoBehaviour
 
     public void TornadeEvent()
     {
+        playerMovement.ActiveStorm(stormDuration, force, stormGO);
         Debug.Log("Tornado");
     }
 
     public void FloodEvent()
     {
+        playerMovement.ActiveRain(rainDuration);
         Debug.Log("Flood");
     }
 

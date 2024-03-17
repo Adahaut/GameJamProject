@@ -21,9 +21,9 @@ public class River : SeasonObject
 
     protected override void Start()
     {
-        base.Start();
         targetWaterPosition = water.position;
         ResetWater();
+        base.Start();
     }
 
     public override void SeasonChanged(Seasons season)

@@ -24,7 +24,7 @@ public class ButtonWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("bhxxab");
+        
         SetHovered();
     }
 
