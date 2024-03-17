@@ -10,6 +10,7 @@ public class Wine : MonoBehaviour
         if (collision.tag == "Player")
         {
             collision.GetComponent<PlayerMovement>()._winesClimbing = true;
+            collision.GetComponent<PlayerMovement>().EnterWines();
         }
     }
 
@@ -18,6 +19,7 @@ public class Wine : MonoBehaviour
         if (collision.tag == "Player")
         {
             collision.GetComponent<PlayerMovement>()._winesClimbing = false;
+            collision.GetComponent<PlayerMovement>().ExitWines();
         }
     }
 }

@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     Transform _transform;
     Rigidbody2D _rb;
     Vector2 _velocity;
+    public AudioSource footsteps;
     public Vector2 _jumpForce = new Vector2(0,5);
     public Vector2 _respawnPos;
     PlayerManager _manager;
@@ -73,6 +74,11 @@ public class PlayerMovement : MonoBehaviour
     Animator _animator;
     void Start()
     {
+        _cloud.gameObject.SetActive(false);
+
+        initCloudPos = new(0, 450);
+        endCloudPos = new(0, 270);
+
         _jumpMax = 2;
         _transform = transform;
         _rb = GetComponent<Rigidbody2D>();
@@ -149,20 +155,26 @@ public class PlayerMovement : MonoBehaviour
 
     private void setAnim()
     {
-        if (_rb.velocity.x < -0.05f)
+        if (!_animator.GetBool("WallSlide"))
         {
-            states.transform.localScale = new(-1f, 1f, 1f);
-            _spriteRenderer.flipX = true;
+            if (_rb.velocity.x < -0.05f)
+            {
+                states.transform.localScale = new(-1f, 1f, 1f);
+                _spriteRenderer.flipX = true;
+            }
+            else if (_rb.velocity.x > 0.05f)
+            {
+                states.transform.localScale = new(1f, 1f, 1f);
+                _spriteRenderer.flipX = false;
+            }
         }
-        else if ( _rb.velocity.x > 0.05f)
-        {
-            states.transform.localScale = new(1f, 1f, 1f);
-            _spriteRenderer.flipX = false;
-        }
+            
 
         if (_grounded && Mathf.Abs(_rb.velocity.x) > 0.1f)
         {
             _animator.SetBool("IsRunning", true);
+            footsteps.Play();
+            
         }
         else
         {
@@ -343,7 +355,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Death()
     {
-        StartCoroutine(DeathAnim());
+        //StartCoroutine(DeathAnim());
         _rb.velocity = Vector2.zero;
         _transform.position = _respawnPos;
     }
@@ -387,12 +399,14 @@ public class PlayerMovement : MonoBehaviour
 
     public IEnumerator DoRain(float _rainDuration)
     {
+        _cloud.gameObject.SetActive(true);
+
         _Raining = true;
         float time = 0f;
         while (time/(_rainDuration - 1) < 1)
         {
             time += Time.deltaTime;
-            _cloud.transform.position = Vector2.Lerp(initCloudPos, endCloudPos, time / (_rainDuration - 1));
+            _cloud.transform.localPosition = Vector2.Lerp(initCloudPos, endCloudPos, time / (_rainDuration - 1));
             yield return new WaitForEndOfFrame();
         }
         yield return new WaitForSeconds(0.5f);
@@ -403,10 +417,23 @@ public class PlayerMovement : MonoBehaviour
         while (time / (_rainDuration - 1) < 1)
         {
             time += Time.deltaTime;
-            _cloud.transform.position = Vector2.Lerp(endCloudPos, initCloudPos, time / (_rainDuration - 1));
+            _cloud.transform.localPosition = Vector2.Lerp(endCloudPos, initCloudPos, time / (_rainDuration - 1));
             yield return new WaitForEndOfFrame();
         }
         _Raining = false;
+        _cloud.gameObject.SetActive(false);
+
+    }
+
+    public void EnterWines()
+    {
+        _animator.SetBool("Climb", true);
+        _animator.SetBool("Jumping", false);
+    }
+
+    public void ExitWines()
+    {
+        _animator.SetBool("Climb", false);
     }
 
     public void ActiveRain(float s)

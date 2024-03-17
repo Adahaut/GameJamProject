@@ -31,7 +31,7 @@ public class SeasonManager : MonoBehaviour
 
     private void Start()
     {
-        //ChangeSeason(Seasons.SUMMER);
+        ChangeSeason(Seasons.SPRING);
     }
 
     public void ChangeSeason(Seasons season)
@@ -56,6 +56,8 @@ public class SeasonManager : MonoBehaviour
         foreach (var obj in allObjects)
         {
             obj.SeasonChanged(currentSeason);
+
+            
         }
     }
 
@@ -68,6 +70,15 @@ public class SeasonManager : MonoBehaviour
     public void FloodEvent()
     {
         playerMovement.ActiveRain(rainDuration);
+
+        foreach (var item in allObjects)
+        {
+            if (item.GetComponent<River>() != null)
+            {
+                item.GetComponent<River>().FillWater();
+            }
+        }
+
         Debug.Log("Flood");
     }
 

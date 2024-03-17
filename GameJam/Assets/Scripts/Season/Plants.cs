@@ -5,28 +5,26 @@ using UnityEngine;
 
 public class Plants : SeasonObject
 {
-    public SpriteRenderer plants;
-    public Sprite underGroundPlants;
-    public Sprite growingPlants;
+    public GameObject liane;
 
     public override void SeasonChanged(Seasons season)
     {
         switch (season)
         {
             case Seasons.SUMMER:
-                plants.sprite = growingPlants;
+                liane.SetActive(false);
                 break;
 
             case Seasons.WINTER:
-                plants.sprite = underGroundPlants;
+                liane.SetActive(false);
                 break;
 
             case Seasons.AUTUMN:
-                plants.sprite = underGroundPlants;
+                liane.SetActive(false);
                 break;
 
             case Seasons.SPRING:
-                plants.sprite = underGroundPlants;
+                liane.SetActive(true);
                 break;
         }
     }

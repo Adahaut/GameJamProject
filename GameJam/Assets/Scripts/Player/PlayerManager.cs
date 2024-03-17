@@ -34,7 +34,8 @@ public class PlayerManager : MonoBehaviour
             {
                 return;
             }
-            Destroy(collision.gameObject);
+            collision.enabled = false;
+            collision.GetComponent<TriggerBoxAge>().SetNoReturn(transform);
             AgeUp();
         }
         else if(collision.tag == "TriggerEventCamera")
@@ -74,12 +75,16 @@ public class PlayerManager : MonoBehaviour
 
             playerMovement.WC1.SetActive(false);
             playerMovement.WC2.SetActive(false);
+
+            WheelManager.instance.UnlockSeasons();
         }
         else if(ageState == 2)
         {
             playerMovement._jumpMax = 0;
             playerMovement._maxVel = 3;
             playerMovement._speedFactor = 500;
+
+            WheelManager.instance.UnlockEvents();
         }
     }
 }
