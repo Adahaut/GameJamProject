@@ -52,6 +52,7 @@ public class ButtonWheel : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void SetSeason()
     {
+        
         SeasonManager.instance.ChangeSeason(buttonSeason);
         //WheelManager.instance.DisableWheels();
     }
