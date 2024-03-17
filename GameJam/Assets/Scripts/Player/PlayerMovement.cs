@@ -73,6 +73,11 @@ public class PlayerMovement : MonoBehaviour
     Animator _animator;
     void Start()
     {
+        _cloud.gameObject.SetActive(false);
+
+        initCloudPos = new(0, 450);
+        endCloudPos = new(0, 270);
+
         _jumpMax = 2;
         _transform = transform;
         _rb = GetComponent<Rigidbody2D>();
@@ -347,7 +352,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Death()
     {
-        StartCoroutine(DeathAnim());
+        //StartCoroutine(DeathAnim());
         _rb.velocity = Vector2.zero;
         _transform.position = _respawnPos;
     }
@@ -391,12 +396,14 @@ public class PlayerMovement : MonoBehaviour
 
     public IEnumerator DoRain(float _rainDuration)
     {
+        _cloud.gameObject.SetActive(true);
+
         _Raining = true;
         float time = 0f;
         while (time/(_rainDuration - 1) < 1)
         {
             time += Time.deltaTime;
-            _cloud.transform.position = Vector2.Lerp(initCloudPos, endCloudPos, time / (_rainDuration - 1));
+            _cloud.transform.localPosition = Vector2.Lerp(initCloudPos, endCloudPos, time / (_rainDuration - 1));
             yield return new WaitForEndOfFrame();
         }
         yield return new WaitForSeconds(0.5f);
@@ -407,10 +414,12 @@ public class PlayerMovement : MonoBehaviour
         while (time / (_rainDuration - 1) < 1)
         {
             time += Time.deltaTime;
-            _cloud.transform.position = Vector2.Lerp(endCloudPos, initCloudPos, time / (_rainDuration - 1));
+            _cloud.transform.localPosition = Vector2.Lerp(endCloudPos, initCloudPos, time / (_rainDuration - 1));
             yield return new WaitForEndOfFrame();
         }
         _Raining = false;
+        _cloud.gameObject.SetActive(false);
+
     }
 
     public void EnterWines()

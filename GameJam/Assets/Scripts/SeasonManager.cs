@@ -31,7 +31,7 @@ public class SeasonManager : MonoBehaviour
 
     private void Start()
     {
-        //ChangeSeason(Seasons.SUMMER);
+        ChangeSeason(Seasons.SPRING);
     }
 
     public void ChangeSeason(Seasons season)
@@ -53,10 +53,10 @@ public class SeasonManager : MonoBehaviour
                 break;
         }
 
-        //foreach (var obj in allObjects)
-        //{
-        //    obj.SeasonChanged(currentSeason);
-        //}
+        foreach (var obj in allObjects)
+        {
+            obj.SeasonChanged(currentSeason);
+        }
     }
 
     public void TornadeEvent()
