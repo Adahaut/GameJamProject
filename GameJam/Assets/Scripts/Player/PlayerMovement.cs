@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject WC2;
     public SpriteRenderer _spriteRenderer;
 
+    public GameObject states;
+
 
     public bool _grounded = false;
     public bool _canWallJumpR = false;
@@ -55,6 +57,10 @@ public class PlayerMovement : MonoBehaviour
     bool _climbingButt = false;
     bool _unClimbingButt = false;
 
+    public Animator childAnimator;
+    public Animator adultAnimator;
+    public Animator oldAnimator;
+
     Animator _animator;
     void Start()
     {
@@ -64,7 +70,11 @@ public class PlayerMovement : MonoBehaviour
         _basicGravityScale = _rb.gravityScale;
         _basicMass = _rb.mass;
         _manager = GetComponent<PlayerManager>();
-        _animator = GetComponent<Animator>();
+
+
+        _animator = childAnimator;
+        adultAnimator.gameObject.SetActive(false);
+        oldAnimator.gameObject.SetActive(false);
     }
 
     void Update()
@@ -94,6 +104,31 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void ChangeAnimator(int age)
+    {
+        childAnimator.gameObject.SetActive(false);
+        adultAnimator.gameObject.SetActive(false);
+        oldAnimator.gameObject.SetActive(false);
+
+        switch(age)
+        {
+            case 0:
+                _animator = childAnimator;
+                break;
+            case 1:
+                _animator = adultAnimator;
+                break;
+            case 2:
+                _animator = oldAnimator;
+                break;
+            default:
+                _animator = oldAnimator;
+                break;
+        }
+
+        _animator.gameObject.SetActive(true);
+    }
+
     public void Movement(InputAction.CallbackContext ctx)
     {
         _velocity = ctx.ReadValue<Vector2>();
@@ -103,10 +138,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_rb.velocity.x < -0.05f)
         {
+            states.transform.localScale = new(-1f, 1f, 1f);
             _spriteRenderer.flipX = true;
         }
         else if ( _rb.velocity.x > 0.05f)
         {
+            states.transform.localScale = new(1f, 1f, 1f);
             _spriteRenderer.flipX = false;
         }
 
@@ -146,6 +183,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void EnterWater()
     {
+        _animator.SetBool("Swimming", true);
         _rb.velocity = Vector2.zero;
         _rb.mass = _waterMass;
         _grounded = false;
@@ -155,6 +193,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void ExitWater()
     {
+        _animator.SetBool("Swimming", false);
         _rb.mass = _basicMass;
         _inWater = false;
     }
@@ -220,6 +259,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (ctx.started)
         {
+            if (_jumpMax == 0)
+                return;
+
             if (_grounded || _jumpCount < _jumpMax && (!_canWallJumpL && !_canWallJumpR)) 
             {
                 _jumpCount++;

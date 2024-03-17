@@ -62,12 +62,24 @@ public class PlayerManager : MonoBehaviour
     private void AgeUp()
     {
         ageState++;
-        playerMovement._spriteRenderer.sprite = spriteStatePlayer[ageState];
-        if (ageState == 2)
+        //playerMovement._spriteRenderer.sprite = spriteStatePlayer[ageState];
+
+        playerMovement.ChangeAnimator(ageState);
+
+        if (ageState == 1)
         {
             playerMovement._jumpMax = 1;
+            playerMovement._maxVel = 5;
+            playerMovement._speedFactor = 1000;
+
             playerMovement.WC1.SetActive(false);
             playerMovement.WC2.SetActive(false);
+        }
+        else if(ageState == 2)
+        {
+            playerMovement._jumpMax = 0;
+            playerMovement._maxVel = 3;
+            playerMovement._speedFactor = 500;
         }
     }
 }
