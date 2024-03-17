@@ -67,6 +67,9 @@ public class PlayerMovement : MonoBehaviour
     public Animator adultAnimator;
     public Animator oldAnimator;
 
+    public GameObject camera;
+    public GameObject backgournd;
+
     Animator _animator;
     void Start()
     {
@@ -88,6 +91,9 @@ public class PlayerMovement : MonoBehaviour
         Move();
         AddSpeedVelY();
         setAnim();
+
+        backgournd.transform.position = new(0,backgournd.transform.position.y, 0);
+
         if (_winesClimbing)
         {
             _rb.gravityScale = 0;
@@ -108,6 +114,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _rb.gravityScale = _basicGravityScale;
         }
+
     }
 
     public void ChangeAnimator(int age)
