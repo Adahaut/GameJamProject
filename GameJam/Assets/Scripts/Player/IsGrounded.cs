@@ -14,6 +14,7 @@ public class IsGrounded : MonoBehaviour
     {
         if (collision.tag == "Floor")
         {
+            _pM.touchingColliders.Add(collision);
             _pM.IsGrounded();
         }
         else if (collision.tag == "Water")
@@ -30,6 +31,7 @@ public class IsGrounded : MonoBehaviour
     {
         if (collision.tag == "Floor")
         {
+            _pM.touchingColliders.Remove(collision);
             _pM.ExitGround();
         }
         else if (collision.tag == "Water")

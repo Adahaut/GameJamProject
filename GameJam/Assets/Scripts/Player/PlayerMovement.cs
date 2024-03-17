@@ -71,7 +71,14 @@ public class PlayerMovement : MonoBehaviour
     public GameObject camera;
     public GameObject backgournd;
 
+    public LayerMask playerMask;
+
+    public float backgroundFollowSpeed;
+
     Animator _animator;
+
+    public HashSet<Collider2D> touchingColliders = new();
+
     void Start()
     {
         _cloud.gameObject.SetActive(false);
@@ -97,8 +104,9 @@ public class PlayerMovement : MonoBehaviour
         Move();
         AddSpeedVelY();
         setAnim();
+        ChackEcrasement();
 
-        backgournd.transform.position = new(0,backgournd.transform.position.y, 0);
+        backgournd.transform.position = new(transform.position.x / backgroundFollowSpeed,backgournd.transform.position.y, 0);
 
         if (_winesClimbing)
         {
@@ -121,6 +129,17 @@ public class PlayerMovement : MonoBehaviour
             _rb.gravityScale = _basicGravityScale;
         }
 
+    }
+
+    public void ChackEcrasement()
+    {
+        if(_grounded || _inWater)
+        {
+            if(Physics2D.Raycast(transform.position, transform.up, .4f, playerMask))
+            {
+                Death();
+            }
+        }
     }
 
     public void ChangeAnimator(int age)
@@ -240,8 +259,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void ExitGround()
     {
-        _grounded = false;
-        _animator.SetBool("Grounded", false);
+        if(touchingColliders.Count <= 0)
+        {
+            _grounded = false;
+            _animator.SetBool("Grounded", false);
+        }
     }
 
     private void Move()
@@ -394,7 +416,10 @@ public class PlayerMovement : MonoBehaviour
     public void ActiveStorm(float s, float f, GameObject SE)
     {
         if (_manager.ageState >= 2 && !_Storm && _grounded)
+        {
+            SE.SetActive(false);
             StartCoroutine(DoStorm(s, f, SE));
+        }
     }
 
     public IEnumerator DoRain(float _rainDuration)
