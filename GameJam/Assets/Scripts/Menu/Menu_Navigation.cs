@@ -26,6 +26,7 @@ public class Menu_Navigation : MonoBehaviour
         mainMenuAnimator.Play("LaunchGameMenu");
         settingsMenu.SetActive(false);
         creditsMenu.SetActive(false);
+        //mainMenuAnimator.Play("FarfadetMalicieux");
     }
 
     public void LaunchGame()
