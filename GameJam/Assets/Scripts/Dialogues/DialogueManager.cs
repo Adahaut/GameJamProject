@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -19,12 +20,20 @@ public class DialogueManager : MonoBehaviour
 
     private List<TextQueue> queue = new List<TextQueue>();
 
+    private Image img;
+
     public static DialogueManager instance {  get; private set; }
 
     private void Awake()
     {
         instance = this;
         bubble.SetActive(false);
+        
+    }
+
+    private void Start()
+    {
+        img = bubble.GetComponent<Image>();
     }
 
     private void FixedUpdate()
@@ -35,21 +44,26 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void AddDialogueToQueue(string dialogue, float time, Vector3 _offset, float timeToShow, Transform bubbleObjectToConnect = null)
+    public void AddDialogueToQueue(string dialogue, float time, Vector3 _offset, float timeToShow, Transform bubbleObjectToConnect, Sprite _sprite)
     {
         offset = _offset;
         timeToWriteTexts = timeToShow;
         TextQueue element = new TextQueue();
         element.time = time;
         element.text = dialogue;
+        element.sprite = _sprite;
+
         if (bubbleObjectToConnect == null)
             element.target = player;
         else
             element.target = bubbleObjectToConnect;
 
         queue.Add(element);
+
         if(!bubble.activeSelf)
             CheckQueue();
+
+
     }
 
     private void CheckQueue()
@@ -59,6 +73,9 @@ public class DialogueManager : MonoBehaviour
             if (!bubble.activeSelf)
                 bubble.transform.position = queue[0].target.position + offset;
             bubble.SetActive(true);
+
+            img.sprite = queue[0].sprite;
+
             StartCoroutine(ShowLetters(queue[0].text));
             target = queue[0].target;
             StartCoroutine(DisableTextAfterTime(queue[0].time));
@@ -94,4 +111,5 @@ public struct TextQueue
     public string text;
     public float time;
     public Transform target;
+    public Sprite sprite;
 }
