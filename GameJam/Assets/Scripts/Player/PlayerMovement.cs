@@ -149,16 +149,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void setAnim()
     {
-        if (_rb.velocity.x < -0.05f)
+        if (!_animator.GetBool("WallSlide"))
         {
-            states.transform.localScale = new(-1f, 1f, 1f);
-            _spriteRenderer.flipX = true;
+            if (_rb.velocity.x < -0.05f)
+            {
+                states.transform.localScale = new(-1f, 1f, 1f);
+                _spriteRenderer.flipX = true;
+            }
+            else if (_rb.velocity.x > 0.05f)
+            {
+                states.transform.localScale = new(1f, 1f, 1f);
+                _spriteRenderer.flipX = false;
+            }
         }
-        else if ( _rb.velocity.x > 0.05f)
-        {
-            states.transform.localScale = new(1f, 1f, 1f);
-            _spriteRenderer.flipX = false;
-        }
+            
 
         if (_grounded && Mathf.Abs(_rb.velocity.x) > 0.1f)
         {
@@ -407,6 +411,17 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         _Raining = false;
+    }
+
+    public void EnterWines()
+    {
+        _animator.SetBool("Climb", true);
+        _animator.SetBool("Jumping", false);
+    }
+
+    public void ExitWines()
+    {
+        _animator.SetBool("Climb", false);
     }
 
     public void ActiveRain(float s)
