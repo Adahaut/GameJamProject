@@ -18,8 +18,6 @@ public class Menu_Navigation : MonoBehaviour
 
     [Header("Animators")]
     [SerializeField] Animator mainMenuAnimator;
-    [SerializeField] Animator settingsAnimator;
-    [SerializeField] Animator creditsAnimator;
 
 
     public void Start()
