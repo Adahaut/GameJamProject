@@ -30,27 +30,27 @@ public class River : SeasonObject
         switch (season)
         {
             case Seasons.SUMMER:
+                river.tag = "Water";
                 DrainWater();
                 river.color = normalWater;
-                river.tag = "Water";
                 break;
 
             case Seasons.WINTER:
+                river.tag = "Floor";
                 ResetWater();
                 river.color = frozenWater;
-                river.tag = "Floor";
                 break;
 
             case Seasons.AUTUMN:
+                river.tag = "Water";
                 ResetWater();
                 river.color = normalWater;
-                river.tag = "Water";
                 break;
 
             case Seasons.SPRING:
+                river.tag = "Water";
                 ResetWater();
                 river.color = normalWater;
-                river.tag = "Water";
                 break;
         }
     }
