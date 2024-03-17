@@ -5,29 +5,58 @@ using UnityEngine;
 
 public class Spike : SeasonObject
 {
-    public SpriteRenderer spike;
     public Sprite spikeUnderLeaves;
     public Sprite spikeWithoutLeaves;
+
+    List<GameObject> spikes = new();
+
+    protected override void Start()
+    {
+        foreach (Transform item in transform)
+        {
+            spikes.Add(item.gameObject);
+        }
+
+        base.Start();
+    }
 
     public override void SeasonChanged(Seasons season)
     {
         switch (season)
         {
             case Seasons.SUMMER:
-                spike.sprite = spikeWithoutLeaves;
+                ResetSpikes();
                 break;
 
             case Seasons.WINTER:
-                spike.sprite = spikeWithoutLeaves;
+                ResetSpikes();
                 break;
 
             case Seasons.AUTUMN:
-                spike.sprite = spikeUnderLeaves;
+                CoverSpikes();
                 break;
 
             case Seasons.SPRING:
-                spike.sprite = spikeWithoutLeaves;
+                ResetSpikes();
                 break;
+        }
+    }
+
+    private void ResetSpikes()
+    {
+        foreach (var item in spikes)
+        {
+            item.tag = "Spike";
+            item.GetComponent<SpriteRenderer>().sprite = spikeWithoutLeaves;
+        }
+    }
+
+    private void CoverSpikes()
+    {
+        foreach (var item in spikes)
+        {
+            item.tag = "Floor";
+            item.GetComponent<SpriteRenderer>().sprite = spikeUnderLeaves;
         }
     }
 }

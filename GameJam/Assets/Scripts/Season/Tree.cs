@@ -8,11 +8,11 @@ public class Tree : SeasonObject
     public Sprite treeSpriteWithLeaves;
     public Sprite treeSpriteWithoutLeaves;
 
-    public GameObject leaf;
+    public GameObject leaves;
 
     private void Awake()
     {
-        leaf.SetActive(false);
+        leaves.SetActive(false);
     }
 
     public override void SeasonChanged(Seasons season)
@@ -21,22 +21,22 @@ public class Tree : SeasonObject
         {
             case Seasons.SUMMER:
                 treeSprite.sprite = treeSpriteWithLeaves;
-                leaf.SetActive(false);
+                leaves.SetActive(false);
                 break;
 
             case Seasons.WINTER:
                 treeSprite.sprite = treeSpriteWithoutLeaves;
-                leaf.SetActive(false);
+                leaves.SetActive(false);
                 break;
             
             case Seasons.AUTUMN:
                 treeSprite.sprite = treeSpriteWithoutLeaves;
-                leaf.SetActive(true);
+                leaves.SetActive(true);
                 break;
                 
             case Seasons.SPRING:
                 treeSprite.sprite = treeSpriteWithLeaves;
-                leaf.SetActive(false);
+                leaves.SetActive(false);
                 break;  
         }
     }

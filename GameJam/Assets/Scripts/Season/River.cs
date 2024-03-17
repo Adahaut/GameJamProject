@@ -15,9 +15,8 @@ public class River : SeasonObject
     Vector3 targetWaterPosition;
 
     public SpriteRenderer river;
-    public Sprite freezeRiver;
-    public Sprite fullRiver;
-    public Sprite NoRiver;
+    public Color normalWater;
+    public Color frozenWater;
 
     protected override void Start()
     {
@@ -32,22 +31,26 @@ public class River : SeasonObject
         {
             case Seasons.SUMMER:
                 DrainWater();
-                river.sprite = NoRiver;
+                river.color = normalWater;
+                river.tag = "Water";
                 break;
 
             case Seasons.WINTER:
                 ResetWater();
-                river.sprite = freezeRiver;
+                river.color = frozenWater;
+                river.tag = "Floor";
                 break;
 
             case Seasons.AUTUMN:
                 ResetWater();
-                river.sprite = fullRiver;
+                river.color = normalWater;
+                river.tag = "Water";
                 break;
 
             case Seasons.SPRING:
-                FillWater();
-                river.sprite = fullRiver;
+                ResetWater();
+                river.color = normalWater;
+                river.tag = "Water";
                 break;
         }
     }
@@ -71,18 +74,5 @@ public class River : SeasonObject
     {
         water.position = Vector3.MoveTowards(water.position, targetWaterPosition, Time.deltaTime * waterSpeed);
 
-
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            FillWater();
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            ResetWater();
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            DrainWater();
-        }
     }
 }

@@ -22,6 +22,15 @@ public class WheelManager : MonoBehaviour
     GameObject currentWheel;
     List<ButtonWheel> currentList;
 
+    public Image seasonImage;
+    public Image eventsImage;
+
+    public Sprite seasonLogo;
+    public Sprite eventsLogo;
+
+    bool lockedSeasons = true;
+    bool lockedEvents = true;
+
     private void Awake()
     {
         instance = this;
@@ -116,6 +125,8 @@ public class WheelManager : MonoBehaviour
 
     public void OpenSeasonWheel()
     {
+        if (lockedSeasons) return;
+
         DisableWheels(false);
         seasonsWheel.SetActive(true);
         currentWheel = seasonsWheel;
@@ -124,10 +135,24 @@ public class WheelManager : MonoBehaviour
 
     public void OpenEventWheel()
     {
+        if (lockedEvents) return;
+
         DisableWheels(false);
         eventsWheel.SetActive(true);
         currentWheel = eventsWheel;
         currentList = buttonEventsWheel;
 
+    }
+
+    public void UnlockSeasons()
+    {
+        lockedSeasons = false;
+        seasonImage.sprite = seasonLogo;
+    }
+
+    public void UnlockEvents()
+    {
+        lockedEvents = false;
+        eventsImage.sprite = eventsLogo;
     }
 }
