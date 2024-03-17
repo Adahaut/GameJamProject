@@ -6,7 +6,9 @@ public class DialogueTrigger : MonoBehaviour
     [SerializeField] private List<string> dialogues;
     [SerializeField] private Transform connectedObjectToBubble;
     [SerializeField] private float timeToDisplayText;
-    private bool opened = false;    
+    private bool opened = false;
+    [SerializeField] private Vector3 offset;
+    [SerializeField] private float timeToShowText = 3f;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -15,7 +17,7 @@ public class DialogueTrigger : MonoBehaviour
             opened = true;
             foreach(string dialogue in dialogues)
             {
-                DialogueManager.instance.AddDialogueToQueue(dialogue, timeToDisplayText, connectedObjectToBubble);
+                DialogueManager.instance.AddDialogueToQueue(dialogue, timeToDisplayText, offset, timeToShowText, connectedObjectToBubble);
             }
         }
         
