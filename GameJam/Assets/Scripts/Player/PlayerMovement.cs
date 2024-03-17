@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     Transform _transform;
     Rigidbody2D _rb;
     Vector2 _velocity;
+    public AudioSource footsteps;
     public Vector2 _jumpForce = new Vector2(0,5);
     public Vector2 _respawnPos;
     PlayerManager _manager;
@@ -172,6 +173,8 @@ public class PlayerMovement : MonoBehaviour
         if (_grounded && Mathf.Abs(_rb.velocity.x) > 0.1f)
         {
             _animator.SetBool("IsRunning", true);
+            footsteps.Play();
+            
         }
         else
         {
