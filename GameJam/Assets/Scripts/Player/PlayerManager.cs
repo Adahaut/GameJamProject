@@ -19,6 +19,8 @@ public class PlayerManager : MonoBehaviour
 
     bool hasArtefact = false;
 
+    public EndAnimEvent endAnimEvent;
+
     private void Start()
     {
         playerMovement._spriteRenderer.sprite = spriteStatePlayer[ageState];
@@ -50,6 +52,7 @@ public class PlayerManager : MonoBehaviour
         {
             hasArtefact = true;
             artefact.SetActive(true);
+            endAnimEvent.StartEndAnim();
             Destroy(collision.gameObject);
         }
     }

@@ -192,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
         if (_grounded && Mathf.Abs(_rb.velocity.x) > 0.1f)
         {
             _animator.SetBool("IsRunning", true);
-            footsteps.Play();
+            //footsteps.Play();
             
         }
         else
