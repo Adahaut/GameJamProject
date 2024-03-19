@@ -31,6 +31,8 @@ public class WheelManager : MonoBehaviour
     bool lockedSeasons = true;
     bool lockedEvents = true;
 
+    public PlayerManager playerManager;
+
     private void Awake()
     {
         instance = this;
@@ -45,10 +47,12 @@ public class WheelManager : MonoBehaviour
     {
         if(ctx.started)
         {
+            print("ff");
             firstWheel.SetActive(true);
             currentWheel = firstWheel;
             currentList = buttonFirstWheel;
             GetComponent<PlayerInput>().SwitchCurrentActionMap("SelectionWheel");
+            playerManager.GetComponent<PlayerInput>().SwitchCurrentActionMap("SelectionWheel");
         }
     }
 
@@ -64,6 +68,7 @@ public class WheelManager : MonoBehaviour
 
     public void DisableWheels(bool changeInputMap)
     {
+        print("yy");
         firstWheel.SetActive(false);
         seasonsWheel.SetActive(false);
         eventsWheel.SetActive(false);
@@ -71,6 +76,7 @@ public class WheelManager : MonoBehaviour
             currentWheel.SetActive(false);
         if (changeInputMap) 
             GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerMovement");
+        playerManager.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerMovement");
     }
 
     public void ShiftOpenWheel(InputAction.CallbackContext ctx)

@@ -57,12 +57,4 @@ public class EndAnimEvent : MonoBehaviour
         DialogueManager.instance.AddDialogueToQueue(dialogue2, 3f, offset2, timetoShowFirstDialogue2, center, firstDialogueSpriteBubble2);
     }
 
-    private void Update()
-    {
-        
-        if(Input.GetKeyDown(KeyCode.T))
-        {
-            StartEndAnim();
-        }
-    }
 }
