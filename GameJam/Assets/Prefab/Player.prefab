@@ -5896,6 +5896,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 629739da9bc98eb46a06d4756b8373ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  footsteps: {fileID: 0}
   _jumpForce: {x: 0, y: 12}
   _respawnPos: {x: 0, y: 0}
   WC1: {fileID: 4200724696062720494}
@@ -5903,8 +5904,8 @@ MonoBehaviour:
   _rain: {fileID: 0}
   _cloud: {fileID: 0}
   _spriteRenderer: {fileID: 2760543684850805023}
-  initCloudPos: {x: 478, y: 500}
-  endCloudPos: {x: 478, y: 430}
+  initCloudPos: {x: 960, y: 1000}
+  endCloudPos: {x: 960, y: 800}
   states: {fileID: 4836117832340155698}
   _grounded: 0
   _canWallJumpR: 0
@@ -5940,6 +5941,10 @@ MonoBehaviour:
   oldAnimator: {fileID: 2779925603822929846}
   camera: {fileID: 0}
   backgournd: {fileID: 0}
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  backgroundFollowSpeed: 5
 --- !u!50 &4267381185961134462
 Rigidbody2D:
   serializedVersion: 4
@@ -6024,6 +6029,7 @@ MonoBehaviour:
   - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   artefact: {fileID: 4715533713769130684}
+  endAnimEvent: {fileID: 0}
 --- !u!95 &7614099424562863484
 Animator:
   serializedVersion: 5

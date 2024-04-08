@@ -170,6 +170,16 @@ public class PlayerMovement : MonoBehaviour
     public void Movement(InputAction.CallbackContext ctx)
     {
         _velocity = ctx.ReadValue<Vector2>();
+        if (ctx.started && !footsteps.isPlaying)
+        {
+            footsteps.Play();
+            print("play");
+        }
+        else if (ctx.canceled && footsteps.isPlaying)
+        {
+            footsteps.Stop();
+            print("stop");
+        }
     }
 
     private void setAnim()
@@ -261,6 +271,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(touchingColliders.Count <= 0)
         {
+            footsteps.Stop();
             _grounded = false;
             _animator.SetBool("Grounded", false);
         }
