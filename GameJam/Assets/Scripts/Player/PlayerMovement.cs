@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D _rb;
     Vector2 _velocity;
     public AudioSource footsteps;
+    public AudioSource jump;
     public Vector2 _jumpForce = new Vector2(0,5);
     public Vector2 _respawnPos;
     PlayerManager _manager;
@@ -336,6 +337,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jumping()
     {
+        jump.Play();
         _animator.Play("Jump", -1, 0f);
         _animator.SetBool("Jumping", true);
         _animator.SetBool("Falling", false);
@@ -366,6 +368,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void WallJump(bool _isRight)
     {
+        jump.Play();
         if (_isRight)
         {
             _HasJumpedR = true;

@@ -16,6 +16,11 @@ public class SeasonManager : MonoBehaviour
     [SerializeField] private PostProcessProfile summerProfile;
     [SerializeField] private PostProcessProfile automnProfile;
 
+    [SerializeField] private AudioSource summerSound;
+    [SerializeField] private AudioSource autumnSound;
+    [SerializeField] private AudioSource springSound;
+    [SerializeField] private AudioSource winterSound;
+
     public PlayerMovement playerMovement;
     public GameObject stormGO;
     public List<SeasonObject> allObjects;
@@ -41,15 +46,31 @@ public class SeasonManager : MonoBehaviour
         {
             case Seasons.SPRING:
                 postProcess.profile = springProfile;
+                springSound.Play();
+                summerSound.Stop();
+                autumnSound.Stop();
+                winterSound.Stop();
                 break;
             case Seasons.SUMMER:
                 postProcess.profile = summerProfile;
+                springSound.Stop();
+                summerSound.Play();
+                autumnSound.Stop();
+                winterSound.Stop();
                 break;
             case Seasons.WINTER:
                 postProcess.profile = winterProfile;
+                springSound.Stop();
+                summerSound.Stop();
+                autumnSound.Stop();
+                winterSound.Play();
                 break;
             case Seasons.AUTUMN:
                 postProcess.profile = automnProfile;
+                springSound.Stop();
+                summerSound.Stop();
+                autumnSound.Play();
+                winterSound.Stop();
                 break;
         }
 
